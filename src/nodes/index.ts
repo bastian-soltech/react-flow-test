@@ -26,7 +26,7 @@ export const initialNodes: AppNode[] = [
   },
   {
     id: 'f',
-    type:'ai-node',
+    type:'output',
     position: { x: 100, y: 200 },
     data: { label: 'Ai Node' },
   }

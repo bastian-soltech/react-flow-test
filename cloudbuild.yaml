@@ -1,0 +1,24 @@
+steps:
+  # 1. Docker Build (Ditambahkan tag :latest di ujung nama image)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', '-t', 
+      'asia-southeast2-docker.pkg.dev/absolute-theme-460916-t8/testingartifact/react-flow-testing:latest', 
+      '.'
+    ]
+
+  # 2. Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push', 
+      'asia-southeast2-docker.pkg.dev/absolute-theme-460916-t8/testingartifact/react-flow-testing:latest'
+    ]
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    timeout: 240s
+    args: [
+      'compute', 'instances', 'create-with-container', 'react-flow-vm',
+      '--container-image', 'asia-southeast2-docker.pkg.dev/absolute-theme-460916-t8/testingartifact/react-flow-testing:latest',
+      '--zone=asia-southeast2-a'
+    ]
